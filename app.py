@@ -15,7 +15,6 @@ def execute():
 
     script = data['script']
 
-    # Write script to a temporary file
     script_id = str(uuid.uuid4())
     script_path = f"/tmp/{script_id}.py"
     with open(script_path, 'w') as f:
