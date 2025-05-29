@@ -57,6 +57,10 @@ curl -X POST https://YOUR_CLOUD_RUN_URL/execute \
   -d '{"script": "def main():\n print(\"Hi from Cloud Run\")\n return {\"msg\": \"deployed\"}\n\nif __name__ == \"__main__\":\n import json\n print(json.dumps(main()))"}'
 ```
 
+```powershell command
+Invoke-RestMethod -Uri https://safe-python-executor-191785419969.us-central1.run.app/execute -Method Post -ContentType "application/json" -Body '{ "script": "def main():\n    print(\"Hello from script\")\n    return {\"status\": \"success\"}\n\nif __name__ == \"__main__\":\n    import json\n    print(json.dumps(main()))" }' 
+```
+
 ---
 
 ## 📝 Notes
