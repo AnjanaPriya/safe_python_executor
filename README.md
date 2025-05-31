@@ -42,7 +42,9 @@ gcloud run deploy safe-python-executor \
   --image gcr.io/YOUR_PROJECT_ID/safe-python-executor \
   --platform managed \
   --region us-central1 \
-  --allow-unauthenticated
+  --allow-unauthenticated \
+  --port 8080 \
+  --set-env-vars=USE_NSJAIL=0
 ```
 
 > Replace `YOUR_PROJECT_ID` with your GCP project ID.
@@ -52,12 +54,10 @@ gcloud run deploy safe-python-executor \
 ## 🌐 Example with Cloud Run
 
 ```bash
-curl -X POST https://safe-python-runner-191785419969.us-central1.run.app/execute \
-  -H "Content-Type: application/json" \
-  -d '{"script": "import json\ndef main():\n print(\"Hello from main!\")\n result = {\"status\": \"success\", \"value\": 42}\n print(json.dumps(result))\n\nif __name__ == \"__main__\":\n main()"}'
+curl -Method POST "https://safe-python-runner-191785419969.us-central1.run.app/execute" -ContentType "application/json" -Body '{"script": "import json\n\ndef main():\n    print(\"Hello from main!\")\n    result = {\"status\": \"success\", \"value\": 42}\n    print(json.dumps(result))\n\nif __name__ == \"__main__\":\n    main()"}'
 ```
 
-```powershell command
+```bash
 Invoke-RestMethod -Method Post -Uri "https://safe-python-runner-191785419969.us-central1.run.app/execute" -ContentType "application/json" -Body '{"script": "import json\ndef main():\n print(\"Hello from main!\")\n result = {\"status\": \"success\", \"value\": 42}\n print(json.dumps(result))\n\nif __name__ == \"__main__\":\n main()"}'  
 ```
 
