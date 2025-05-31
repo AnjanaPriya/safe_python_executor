@@ -58,6 +58,18 @@ curl -Method POST "https://safe-python-runner-191785419969.us-central1.run.app/e
 ```
 
 ```bash
+curl -Method POST "https://safe-python-runner-191785419969.us-central1.run.app/execute" -ContentType "application/json" -Body '{"script": "import json\n\ndef main():\n    for i in range(3):\n        print(f\"Loop iteration {i}\")\n    print(json.dumps({\"loop\": \"done\"}))\n\nif __name__ == \"__main__\":\n    main()"}'
+```
+
+```bash
+curl -Method POST "https://safe-python-runner-191785419969.us-central1.run.app/execute" -ContentType "application/json" -Body '{"script": "import json, math\n\ndef main():\n    result = math.sqrt(25)\n    print(\"Calculated square root\")\n    print(json.dumps({\"sqrt\": result}))\n\nif __name__ == \"__main__\":\n    main()"}'
+```
+
+```bash
+curl -Method POST "https://safe-python-runner-191785419969.us-central1.run.app/execute" -ContentType "application/json" -Body '{"script": "import json\n\ndef main():\n    print(\"Hello world\")\n    print(json.dumps({\"greeting\": \"hello\"}))\n\nif __name__ == \"__main__\":\n    main()"}'
+```
+
+```bash
 Invoke-RestMethod -Method Post -Uri "https://safe-python-runner-191785419969.us-central1.run.app/execute" -ContentType "application/json" -Body '{"script": "import json\ndef main():\n print(\"Hello from main!\")\n result = {\"status\": \"success\", \"value\": 42}\n print(json.dumps(result))\n\nif __name__ == \"__main__\":\n main()"}'  
 ```
 
