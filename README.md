@@ -52,13 +52,13 @@ gcloud run deploy safe-python-executor \
 ## 🌐 Example with Cloud Run
 
 ```bash
-curl -X POST https://YOUR_CLOUD_RUN_URL/execute \
+curl -X POST https://safe-python-runner-191785419969.us-central1.run.app/execute \
   -H "Content-Type: application/json" \
-  -d '{"script": "def main():\n print(\"Hi from Cloud Run\")\n return {\"msg\": \"deployed\"}\n\nif __name__ == \"__main__\":\n import json\n print(json.dumps(main()))"}'
+  -d '{"script": "import json\ndef main():\n print(\"Hello from main!\")\n result = {\"status\": \"success\", \"value\": 42}\n print(json.dumps(result))\n\nif __name__ == \"__main__\":\n main()"}'
 ```
 
 ```powershell command
-Invoke-RestMethod -Uri https://safe-python-executor-191785419969.us-central1.run.app/execute -Method Post -ContentType "application/json" -Body '{ "script": "def main():\n    print(\"Hello from script\")\n    return {\"status\": \"success\"}\n\nif __name__ == \"__main__\":\n    import json\n    print(json.dumps(main()))" }' 
+Invoke-RestMethod -Method Post -Uri "https://safe-python-runner-191785419969.us-central1.run.app/execute" -ContentType "application/json" -Body '{"script": "import json\ndef main():\n print(\"Hello from main!\")\n result = {\"status\": \"success\", \"value\": 42}\n print(json.dumps(result))\n\nif __name__ == \"__main__\":\n main()"}'  
 ```
 
 ---

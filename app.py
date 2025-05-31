@@ -5,6 +5,7 @@ import os
 import json
 
 app = Flask(__name__)
+USE_NSJAIL = os.environ.get("USE_NSJAIL", "").strip().lower() in ("1", "true", "yes")
 
 @app.route('/execute', methods=['POST'])
 def execute():
@@ -14,15 +15,15 @@ def execute():
         return jsonify({"error": "Missing 'script' in request"}), 400
 
     script = data['script']
-
     script_id = str(uuid.uuid4())
     script_path = f"/tmp/{script_id}.py"
+
     with open(script_path, 'w') as f:
         f.write(script)
 
     try:
-        result = subprocess.run(
-            [
+        if USE_NSJAIL:
+            cmd = [
                 "nsjail",
                 "-Mo",
                 "--rlimit_as", "256",
@@ -35,15 +36,16 @@ def execute():
                 "--bindmount", "/usr/local",
                 "--",
                 "/usr/local/bin/python", script_path
-            ],
-            capture_output=True, text=True, timeout=5
-        )
+            ]
+        else:
+            cmd = ["/usr/local/bin/python", script_path]
+
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=5)
 
         if result.returncode != 0:
             return jsonify({"error": result.stderr.strip()}), 400
 
         lines = result.stdout.strip().split('\n')
-
         try:
             output_json = json.loads(lines[-1]) if lines else {}
         except json.JSONDecodeError:

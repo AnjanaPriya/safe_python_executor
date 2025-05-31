@@ -34,6 +34,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Install nsjail
 RUN git clone https://github.com/google/nsjail /opt/nsjail && \
     cd /opt/nsjail && make && cp nsjail /usr/bin/nsjail
+ENV USE_NSJAIL=1
 
 EXPOSE 8080
 CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]
